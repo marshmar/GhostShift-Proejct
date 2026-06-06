@@ -158,6 +158,7 @@ public class PlayerGhostController : PlayerController
             isJumping = true;
         }
     }
+
     // 플레이어 이동
     public override void Move()
     {

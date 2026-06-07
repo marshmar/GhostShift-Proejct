@@ -33,4 +33,11 @@ public class StateMachine
 
         CurrentState.DoAction();
     }
+
+    public void FixedUpdateState()
+    {
+        if (CurrentState == null) return;
+
+        CurrentState.FixedDoAction();
+    }
 }

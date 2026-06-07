@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IdleState : State
 {
-    public IdleState(Transform player, Animator anim) : base(player, anim)
+    public IdleState(PlayerControllerR controller) : base(controller)
     { }
 
     public override void Enter()
@@ -22,13 +22,13 @@ public class IdleState : State
         float h = Input.GetAxisRaw("Horizontal");
         if( h != 0f)
         {
-            return new MoveState(player, anim);
+            return new MoveState(controller);
         }
         return null;
     }
 
     public override void DoAction()
     {
-        Debug.Log("Idle state");
+
     }
 }

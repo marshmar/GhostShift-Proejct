@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class MoveState : State
 {
-    private Rigidbody2D rigid;
-    private SpriteRenderer spriteRenderer;
     private float maxSpeed = 8f;
 
-    public MoveState(Transform player, Animator anim) : base(player, anim)
-    { 
-        rigid = player.GetComponent<Rigidbody2D>();
-        spriteRenderer = player.GetComponent<SpriteRenderer>();
-    }
+    public MoveState(PlayerControllerR controller) : base(controller)
+    { }
 
     public override void Enter()
     {
@@ -27,6 +22,10 @@ public class MoveState : State
     public override void DoAction()
     {
         float h = Input.GetAxisRaw("Horizontal");
+        Rigidbody2D rigid = controller.Rigid2D;
+        SpriteRenderer spriteRenderer = controller.SpriteRenderer;
+        Animator anim = controller.Anim;
+
         rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
 
         if (rigid.velocity.x > maxSpeed) // Right Max Speed
@@ -43,6 +42,7 @@ public class MoveState : State
         //Direction Sprite
         if (Input.GetButton("Horizontal"))
         {
+
             spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == 1;
             if (Input.GetAxisRaw("Horizontal") == 1)
             {
@@ -66,7 +66,7 @@ public class MoveState : State
         float h = Input.GetAxisRaw("Horizontal");
         if(h == 0)
         {
-            return new IdleState(player, anim);
+            return new IdleState(controller);
         }
         return null;
     }

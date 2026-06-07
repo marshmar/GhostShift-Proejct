@@ -4,18 +4,18 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected Transform player;
-    protected Animator anim;
+    protected PlayerControllerR controller;
 
-    public State(Transform player, Animator anim)
+    public State(PlayerControllerR controller)
     {
-        this.player = player;
-        this.anim = anim;
+        this.controller = controller;
     }
 
     public abstract void DoAction();
     public abstract State HandleInput();
     public abstract void Enter();
     public abstract void Exit();
+
+    public virtual void FixedDoAction() { }
     public virtual void Skill() { }
 }

@@ -9,7 +9,7 @@ public class IdleState : State
 
     public override void Enter()
     {
-        
+
     }
 
     public override void Exit()
@@ -24,10 +24,16 @@ public class IdleState : State
         {
             return new MoveState(controller);
         }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            return new JumpState(controller);
+        }
+
         return null;
     }
 
-    public override void DoAction()
+    public override void DoAction(float deltaTime)
     {
 
     }

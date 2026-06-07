@@ -21,20 +21,30 @@ public class StateMachine
         CurrentState.Enter();
     }
 
-    public void UpdateState()
+    public void UpdateState(float deltaTime)
     {
-        if(CurrentState == null) return;    
+        if(CurrentState == null) return;
 
-        State nextState = CurrentState.HandleInput();
+        State nextState;
+        nextState = CurrentState.HandleSpecialInput();
         if (nextState != null)
         {
             ChangeState(nextState);
         }
+        else
+        {
+            nextState = CurrentState.HandleInput();
+            if (nextState != null)
+            {
+                ChangeState(nextState);
+            }
+        }
 
-        CurrentState.DoAction();
+        CurrentState.DoAction(deltaTime);
+        return;
     }
 
-    public void FixedUpdateState()
+    public void FixedUpdateState(float fixedDeltaTime)
     {
         if (CurrentState == null) return;
 

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingState : MoveState
+public class JumpState : State
 {
+    private float jumpPower = 33.0f;
+
     private Rigidbody2D rigid;
     private Animator anim;
-    public FallingState(PlayerControllerR controller) : base(controller)
+    public JumpState(PlayerControllerR controller) : base(controller)
     {
         rigid = controller.Rigid2D;
         anim = controller.Anim;
@@ -14,23 +16,44 @@ public class FallingState : MoveState
 
     public override void DoAction(float deltaTime)
     {
-        Move();
         CheckGround();
     }
 
     public override void Enter()
     {
-        anim.SetBool("isJumping", true);
+        Jump();
     }
 
     public override void Exit()
     {
-        anim.SetBool("isJumping", false);
+
     }
 
     public override State HandleInput()
     {
+        float h = Input.GetAxisRaw("Horizontal");
+        if (h != 0f)
+        {
+            return new MoveState(controller);
+        }
+
+        if (anim.GetBool("isJumping") == false)
+        {
+            return new IdleState(controller);
+        }
         return null;
+    }
+
+
+    // 플레이어 점프
+    public void Jump()
+    {
+        // 점프
+        rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        //// 점프 효과음 재생
+        //audio.PlayOneShot(jumpSfx);
+        // 점프 애니메이션 재생
+        anim.SetBool("isJumping", true);
     }
 
     public void CheckGround()
@@ -43,15 +66,10 @@ public class FallingState : MoveState
             {
                 if (rayHit.distance < 1.0f)
                 {
-                    GhostController ghostController = controller as GhostController;
-                    if (ghostController != null)
-                    {
-                        Debug.Log("Can Dash");
-                        ghostController.CanDash = true;
-                    }
                     anim.SetBool("isJumping", false);
                 }
             }
         }
+
     }
 }

@@ -31,12 +31,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        stateMachine.UpdateState();
+        stateMachine.UpdateState(Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
-        stateMachine.FixedUpdateState();
+        stateMachine.FixedUpdateState(Time.fixedDeltaTime);
     }
 
     private void Initialize()
@@ -48,6 +48,10 @@ public class PlayerManager : MonoBehaviour
     private void SetStartCharacter()
     {
         charType = PlayerType.PLAYERGHOST;
+        if(charControllers.ContainsKey(charType))
+        {
+            controller = charControllers[charType];
+        }
     }
 
     private void CashCharObjects()
@@ -135,4 +139,8 @@ public class PlayerManager : MonoBehaviour
         charControllers[charType].enabled = false;
     }
 
+    public State GetCurrentState()
+    {
+        return stateMachine.CurrentState;
+    }
 }

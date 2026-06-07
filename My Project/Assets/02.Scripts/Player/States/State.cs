@@ -11,11 +11,17 @@ public abstract class State
         this.controller = controller;
     }
 
-    public abstract void DoAction();
+    public abstract void DoAction(float deltaTime);
     public abstract State HandleInput();
+
     public abstract void Enter();
     public abstract void Exit();
 
     public virtual void FixedDoAction() { }
     public virtual void Skill() { }
+
+    public virtual State HandleSpecialInput()
+    {
+        return controller.HandleSpecialStateInput();
+    }
 }

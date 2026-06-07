@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17886,6 +17886,7 @@ GameObject:
   - component: {fileID: 7251748584045824937}
   - component: {fileID: 181681179}
   - component: {fileID: 56759022692005721}
+  - component: {fileID: 56759022692005722}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -17909,6 +17910,28 @@ MonoBehaviour:
   shieldCharObj: {fileID: 56759021986416955}
   gogglesCharObj: {fileID: 56759022674419407}
   cleanerCharObj: {fileID: 782389985278007821}
+--- !u!114 &56759022692005722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56759022692005720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ee2d169452781e43ace17f50ef3d0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerGhost: {fileID: 0}
+  playerShield: {fileID: 0}
+  playerGoggles: {fileID: 0}
+  playerCleaner: {fileID: 0}
+  Rigid2D: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
+  Anim: {fileID: 0}
+  Collider: {fileID: 0}
+  Transform: {fileID: 0}
+  AudioSource: {fileID: 0}
 --- !u!4 &56759022692005795
 Transform:
   m_ObjectHideFlags: 0

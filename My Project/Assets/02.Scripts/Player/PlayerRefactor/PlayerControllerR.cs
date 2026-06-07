@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class PlayerControllerR : MonoBehaviour
 {
-
-    public GameObject playerGhost;
-    public GameObject playerShield;
-    public GameObject playerGoggles;
-    public GameObject playerCleaner;
-
-
     // ------------------------------------------
     public Rigidbody2D Rigid2D;
     public SpriteRenderer SpriteRenderer;
@@ -21,33 +14,30 @@ public class PlayerControllerR : MonoBehaviour
 
     // ------------------------------------------
 
-    private StateMachine stateMachine;
-    private PlayerControllerR currController;
+    protected PlayerManager playerManager;
 
     private Dictionary<PlayerType, GameObject> charObjs;
     private Dictionary<PlayerType, PlayerController> charControllers;
-
+    
     protected virtual void Awake()
     {
-        stateMachine = new StateMachine();
-
         Rigid2D = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         Anim = GetComponentInChildren<Animator>();
         Collider = GetComponentInChildren<CapsuleCollider2D>();
         Transform = GetComponent<Transform>();
         AudioSource = GetComponent<AudioSource>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        stateMachine.Initialize(new IdleState(currController));
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     protected virtual void Update()
     {
-        stateMachine.UpdateState();
+
     }
 
     public virtual void Initialize()

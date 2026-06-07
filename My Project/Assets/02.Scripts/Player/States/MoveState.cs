@@ -5,27 +5,50 @@ using UnityEngine;
 public class MoveState : State
 {
     private float maxSpeed = 8f;
+    private float h;
+
+    private Rigidbody2D rigid;
+    private Animator anim;
+    private SpriteRenderer spriteRenderer;
 
     public MoveState(PlayerControllerR controller) : base(controller)
     { }
 
     public override void Enter()
     {
-
+        rigid = controller.Rigid2D;
+        spriteRenderer = controller.SpriteRenderer;
+        anim = controller.Anim;
     }
 
     public override void Exit()
     {
-
+        rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
+        anim.SetBool("isWalking", false);
     }
 
-    public override void DoAction()
+    public override void DoAction(float deltaTime)
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        Rigidbody2D rigid = controller.Rigid2D;
-        SpriteRenderer spriteRenderer = controller.SpriteRenderer;
-        Animator anim = controller.Anim;
+        Move();
+    }
 
+    public override State HandleInput()
+    {
+        h = Input.GetAxisRaw("Horizontal");
+        if(h == 0)
+        {
+            return new IdleState(controller);
+        }
+
+        if (Input.GetButtonDown("Jump") && anim.GetBool("isJumping") == false)
+        {
+            return new JumpState(controller);
+        }
+        return null;
+    }
+
+    public void Move()
+    {
         rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
 
         if (rigid.velocity.x > maxSpeed) // Right Max Speed
@@ -33,41 +56,10 @@ public class MoveState : State
         else if (rigid.velocity.x < maxSpeed * (-1)) // Left Max Speed
             rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
 
-
-        if (Input.GetButtonUp("Horizontal"))
-        {
-            rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
-        }
-
-        //Direction Sprite
-        if (Input.GetButton("Horizontal"))
-        {
-
-            spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == 1;
-            if (Input.GetAxisRaw("Horizontal") == 1)
-            {
-                spriteRenderer.flipX = true;
-            }
-            else
-            {
-                spriteRenderer.flipX = false;
-            }
-        }
+        // sprite
+        spriteRenderer.flipX = (h == 1);
 
         //Animation
-        if (Mathf.Abs(rigid.velocity.x) < 0.5)
-            anim.SetBool("isWalking", false);
-        else
-            anim.SetBool("isWalking", true);
-    }
-
-    public override State HandleInput()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        if(h == 0)
-        {
-            return new IdleState(controller);
-        }
-        return null;
+        anim.SetBool("isWalking", Mathf.Abs(rigid.velocity.x) > 0.5);
     }
 }

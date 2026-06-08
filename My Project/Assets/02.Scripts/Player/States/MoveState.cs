@@ -5,20 +5,18 @@ using UnityEngine;
 public class MoveState : State
 {
     private float maxSpeed = 8f;
-    private float h;
+    protected float h;
 
-    private Rigidbody2D rigid;
-    private Animator anim;
     private SpriteRenderer spriteRenderer;
 
     public MoveState(PlayerControllerR controller) : base(controller)
-    { }
+    {
+        spriteRenderer = controller.SpriteRenderer;
+    }
 
     public override void Enter()
     {
-        rigid = controller.Rigid2D;
-        spriteRenderer = controller.SpriteRenderer;
-        anim = controller.Anim;
+
     }
 
     public override void Exit()
@@ -30,6 +28,8 @@ public class MoveState : State
     public override void DoAction(float deltaTime)
     {
         Move();
+        FlipSprite(1.0f);
+        SetMoveAnim();
     }
 
     public override State HandleInput()
@@ -40,10 +40,16 @@ public class MoveState : State
             return new IdleState(controller);
         }
 
-        if (Input.GetButtonDown("Jump") && anim.GetBool("isJumping") == false)
+        if (Input.GetButtonDown("Jump"))
         {
             return new JumpState(controller);
         }
+
+        if (rigid.velocity.y < -2.0f)
+        {
+            return new FallingState(controller);
+        }
+
         return null;
     }
 
@@ -55,11 +61,17 @@ public class MoveState : State
             rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
         else if (rigid.velocity.x < maxSpeed * (-1)) // Left Max Speed
             rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
+    }
 
-        // sprite
-        spriteRenderer.flipX = (h == 1);
-
+    public void SetMoveAnim()
+    {
         //Animation
         anim.SetBool("isWalking", Mathf.Abs(rigid.velocity.x) > 0.5);
+    }
+
+    public void FlipSprite(float value)
+    {
+        // sprite
+        spriteRenderer.flipX = (h == value);
     }
 }

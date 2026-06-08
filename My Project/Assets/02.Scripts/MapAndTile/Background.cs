@@ -40,22 +40,22 @@ public class Background : MonoBehaviour
       
         if (currentCameraX <stopXr && currentCameraX > stopXl)
         {
-            if (playerScr.IsPossesing) 
-            {
-                if(isChecked == false)
-                {
-                    playerRigid = GameObject.Find("Player").GetComponentInChildren<Rigidbody2D>();
-                    isChecked = true;
-                }
-            }
-            else
-            {
-                if (isChecked)
-                {
-                    playerRigid = GameObject.Find("Player").GetComponentInChildren<Rigidbody2D>();
-                    isChecked = false;
-                }
-            }
+            //if (playerScr.IsPossesing) 
+            //{
+            //    if(isChecked == false)
+            //    {
+            //        playerRigid = GameObject.Find("Player").GetComponentInChildren<Rigidbody2D>();
+            //        isChecked = true;
+            //    }
+            //}
+            //else
+            //{
+            //    if (isChecked)
+            //    {
+            //        playerRigid = GameObject.Find("Player").GetComponentInChildren<Rigidbody2D>();
+            //        isChecked = false;
+            //    }
+            //}
 
             MoveCamera();
         }

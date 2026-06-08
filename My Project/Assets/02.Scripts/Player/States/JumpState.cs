@@ -2,21 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpState : State
+public class JumpState : MoveState
 {
     private float jumpPower = 33.0f;
 
-    private Rigidbody2D rigid;
-    private Animator anim;
     public JumpState(PlayerControllerR controller) : base(controller)
-    {
-        rigid = controller.Rigid2D;
-        anim = controller.Anim;
-    }
+    { }
 
     public override void DoAction(float deltaTime)
     {
-        CheckGround();
+        Move();
+        FlipSprite(1.0f);
     }
 
     public override void Enter()
@@ -31,15 +27,11 @@ public class JumpState : State
 
     public override State HandleInput()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        if (h != 0f)
-        {
-            return new MoveState(controller);
-        }
+        h = Input.GetAxisRaw("Horizontal");
 
-        if (anim.GetBool("isJumping") == false)
+        if (rigid.velocity.y < 0)
         {
-            return new IdleState(controller);
+            return new FallingState(controller);
         }
         return null;
     }
@@ -54,22 +46,5 @@ public class JumpState : State
         //audio.PlayOneShot(jumpSfx);
         // 점프 애니메이션 재생
         anim.SetBool("isJumping", true);
-    }
-
-    public void CheckGround()
-    {
-        if (rigid.velocity.y < 0)
-        {
-            Debug.DrawRay(rigid.position, Vector3.down, new Color(0, 1, 0));
-            RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 1, LayerMask.GetMask("Platform"));
-            if (rayHit.collider != null)
-            {
-                if (rayHit.distance < 1.0f)
-                {
-                    anim.SetBool("isJumping", false);
-                }
-            }
-        }
-
     }
 }

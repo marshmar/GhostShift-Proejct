@@ -62,4 +62,24 @@ public class PlayerControllerR : MonoBehaviour
 
         return playerToMouseVector;
     }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.CompareTag("Enemy"))
+        {
+            Debug.Log("Enemy collision");
+        }
+    }
+
+    public void SetCashComponent()
+    {
+        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        Anim = GetComponentInChildren<Animator>();
+        Collider = GetComponentInChildren<CapsuleCollider2D>();
+    }
+
+    public PlayerControllerR GetCurrentController()
+    {
+        return playerManager.GetCurrentController();
+    }
 }

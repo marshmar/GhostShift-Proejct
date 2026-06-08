@@ -5,9 +5,7 @@ using UnityEngine;
 public class Shield : MonoBehaviour
 {
     public GameObject hitEffect;
-    private PlayerShieldController playerShieldControllerScr;
     public GameObject playerBullet;
-    private BulletController bulletControllerScr;
     public AudioClip parryingSfx;
     private new AudioSource audio;
     public bool isParrying;
@@ -15,7 +13,6 @@ public class Shield : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerShieldControllerScr = GetComponentInParent<PlayerShieldController>();
         audio = GetComponentInParent<AudioSource>();
     }
     // Update is called once per frame
@@ -28,7 +25,6 @@ public class Shield : MonoBehaviour
     {
         if(collider.tag == "Bullet")
         {
-            playerShieldControllerScr.setDefended(true);
             audio.clip = parryingSfx;
             audio.Play();
             GameObject hitflash = Instantiate(hitEffect, transform.position, transform.rotation);

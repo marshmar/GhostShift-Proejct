@@ -4,54 +4,57 @@ using UnityEngine;
 
 public class FallingState : MoveState
 {
-    private Rigidbody2D rigid;
-    private Animator anim;
+    private bool isGround;
+
     public FallingState(PlayerControllerR controller) : base(controller)
-    {
-        rigid = controller.Rigid2D;
-        anim = controller.Anim;
-    }
+    { }
 
     public override void DoAction(float deltaTime)
     {
         Move();
-        CheckGround();
+        FlipSprite(1.0f);
     }
 
     public override void Enter()
     {
         anim.SetBool("isJumping", true);
+        isGround = false;
     }
 
     public override void Exit()
     {
+        isGround = false;
         anim.SetBool("isJumping", false);
     }
 
     public override State HandleInput()
     {
+        h = Input.GetAxisRaw("Horizontal");
+
+        if(CheckGround())
+        {
+            return new IdleState(controller);
+        }
         return null;
     }
 
-    public void CheckGround()
+    public bool CheckGround()
     {
-        if (rigid.velocity.y < 0)
+        const float rayDistance = 1.5f;
+        Debug.DrawRay(rigid.position, Vector3.down, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, rayDistance, LayerMask.GetMask("Platform"));
+        if (rayHit.collider != null)
         {
-            Debug.DrawRay(rigid.position, Vector3.down, new Color(0, 1, 0));
-            RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 1, LayerMask.GetMask("Platform"));
-            if (rayHit.collider != null)
+            if (rayHit.distance < rayDistance)
             {
-                if (rayHit.distance < 1.0f)
+                GhostController ghostController = controller as GhostController;
+                if (ghostController != null)
                 {
-                    GhostController ghostController = controller as GhostController;
-                    if (ghostController != null)
-                    {
-                        Debug.Log("Can Dash");
-                        ghostController.CanDash = true;
-                    }
-                    anim.SetBool("isJumping", false);
+                    ghostController.CanDash = true;
                 }
+                return true;
             }
         }
+        return false;
     }
 }

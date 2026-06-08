@@ -36,7 +36,7 @@ public class HeartGenerator : MonoBehaviour
             {
                 // 오브젝트가 존재할 때, 위치를 얻어올 수 있음            
                 lastPosition = enemy_ghost.transform.position;
-                Debug.Log("다른 오브젝트의 마지막 X 위치: " + lastPosition);
+                //Debug.Log("다른 오브젝트의 마지막 X 위치: " + lastPosition);
 
             }
         }

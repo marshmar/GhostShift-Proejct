@@ -9,13 +9,9 @@ public class DashState : State
     private float dashTime = 0.2f;
     private float originGravity;
 
-    private Rigidbody2D rigid;
-    private Animator anim;
     private SpriteRenderer spriteRenderer;
     public DashState(PlayerControllerR controller) : base(controller)
     {
-        rigid = controller.Rigid2D;
-        anim = controller.Anim;
         spriteRenderer = controller.SpriteRenderer;
     }
     public override void DoAction(float deltaTime)
@@ -53,7 +49,7 @@ public class DashState : State
     {
         if(elapsedTime >= dashTime)
         {
-            return new MoveState(controller);
+            return new FallingState(controller);
         }
         return null;
     }

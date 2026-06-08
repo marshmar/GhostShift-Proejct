@@ -345,4 +345,8 @@ public class Enemy : MonoBehaviour
     }
     public bool IsDied() { return this.isDied; }
 
+    public void DestroyGameObject(float time)
+    {
+        Destroy(gameObject, time);
+    }
 }

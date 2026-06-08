@@ -31,6 +31,10 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.LogWarning(GetCurrentState().ToString());
+        }
         stateMachine.UpdateState(Time.deltaTime);
     }
 
@@ -47,10 +51,16 @@ public class PlayerManager : MonoBehaviour
 
     private void SetStartCharacter()
     {
+        foreach(var controller in charControllers.Values)
+        {
+            controller.enabled = false;
+        }
+
         charType = PlayerType.PLAYERGHOST;
         if(charControllers.ContainsKey(charType))
         {
             controller = charControllers[charType];
+            controller.enabled = true;
         }
     }
 
@@ -95,7 +105,7 @@ public class PlayerManager : MonoBehaviour
             charControllers.Add(PlayerType.PLAYERSHIELD, ShieldCharacterController);
         }
 
-        var GoggleCharacterController = GetComponent<GoggleController>();
+        var GoggleCharacterController = GetComponent<GogglesController>();
         if (GoggleCharacterController != null)
         {
             charControllers.Add(PlayerType.PLAYERGOGGLES, GoggleCharacterController);
@@ -123,6 +133,8 @@ public class PlayerManager : MonoBehaviour
         controller = nextCharcontroller;
         controller.enabled = true;
 
+        controller.SetCashComponent();
+
         GhostController ghostController = controller as GhostController;
         if (ghostController != null)
         {
@@ -142,5 +154,10 @@ public class PlayerManager : MonoBehaviour
     public State GetCurrentState()
     {
         return stateMachine.CurrentState;
+    }
+
+    public PlayerControllerR GetCurrentController()
+    {
+        return controller;
     }
 }

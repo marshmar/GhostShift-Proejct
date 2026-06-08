@@ -21,11 +21,11 @@ public class ShieldController : PlayerControllerR
         swingSfx = Resources.Load<AudioClip>("PlayerAudios/swing");
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collider)
+    protected void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag("Bullet"))
+        if(collider.CompareTag("Enemy"))
         {
-
+            DamagePlayerAndKnockBack(collider);
         }
     }
 
@@ -46,7 +46,8 @@ public class ShieldController : PlayerControllerR
         {
             return new ParryState(this);
         }
-        return null;
+
+        return base.HandleSpecialStateInput();
     }
 
     public void SetShieldObject(bool value)

@@ -28,12 +28,12 @@ public class GhostController : PlayerControllerR
         {
             isCalledStickEvent = false;
             return new StickState(this, target);
-
         }
-        return null;
+
+        return base.HandleSpecialStateInput();
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collider)
+    protected void OnTriggerEnter2D(Collider2D collider)
     {
         if(collider.CompareTag("Enemy"))
         {
@@ -46,10 +46,19 @@ public class GhostController : PlayerControllerR
                     target = enemy;
                     target.Died();
                     isCalledStickEvent = true;
+                    return;
                 }
+            }
 
+            Debug.Log("StickState Check");
+            if ((playerManager.GetCurrentState() is StickState) == false)
+            {
+                Debug.Log("Damage to player");
+                DamagePlayerAndKnockBack(collider);
             }
         }
+
+
     }
 
 

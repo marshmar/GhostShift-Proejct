@@ -6,9 +6,11 @@ public class ParryState : State
 {
     private float elapsedTime;
     private float parryDuration;
+    private SpriteRenderer spriteRenderer;
     public ParryState(PlayerControllerR controller) : base(controller)
     {
         parryDuration = 0.25f;
+        spriteRenderer = controller.SpriteRenderer;
     }
 
     public override void DoAction(float deltaTime)
@@ -24,7 +26,17 @@ public class ParryState : State
             shieldController.SetShieldObject(true);
             shieldController.SetParryState(true);
             shieldController.PlaySwingSfx();
+
+            if(spriteRenderer.flipX)
+            {
+                shieldController.shield.transform.localPosition = shieldController.shieldPosition;
+            }
+            else
+            {
+                shieldController.shield.transform.localPosition = shieldController.shieldPosition * -1;
+            }
         }
+
         anim.SetBool("isParrying", true);
     }
 

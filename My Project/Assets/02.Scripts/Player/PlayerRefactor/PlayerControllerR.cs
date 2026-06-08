@@ -16,9 +16,13 @@ public class PlayerControllerR : MonoBehaviour
 
     protected PlayerManager playerManager;
 
+    private Health healthScr;
+    private Vector2 knockBackVec;
     private Dictionary<PlayerType, GameObject> charObjs;
     private Dictionary<PlayerType, PlayerController> charControllers;
-    
+    private AudioClip damagedSfx;
+    private bool isCalledKnockbackEvent;
+
     protected virtual void Awake()
     {
         Rigid2D = GetComponent<Rigidbody2D>();
@@ -28,10 +32,12 @@ public class PlayerControllerR : MonoBehaviour
         Transform = GetComponent<Transform>();
         AudioSource = GetComponent<AudioSource>();
         playerManager = GetComponent<PlayerManager>();
+        healthScr = GetComponent<Health>();
     }
 
     private void Start()
     {
+        isCalledKnockbackEvent = false;
         Cursor.lockState = CursorLockMode.Confined;
     }
 
@@ -47,6 +53,11 @@ public class PlayerControllerR : MonoBehaviour
 
     public virtual State HandleSpecialStateInput()
     {
+        if(isCalledKnockbackEvent)
+        {
+            isCalledKnockbackEvent = false;
+            return new KnockBackState(this, knockBackVec);
+        }
         return null;
     }
 
@@ -63,14 +74,6 @@ public class PlayerControllerR : MonoBehaviour
         return playerToMouseVector;
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collider)
-    {
-        if(collider.CompareTag("Enemy"))
-        {
-            Debug.Log("Enemy collision");
-        }
-    }
-
     public void SetCashComponent()
     {
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -81,5 +84,41 @@ public class PlayerControllerR : MonoBehaviour
     public PlayerControllerR GetCurrentController()
     {
         return playerManager.GetCurrentController();
+    }
+
+    public void PlayKnockBackAudio()
+    {
+        AudioSource.clip = damagedSfx;
+        AudioSource.Play();
+    }
+
+    public void DamagePlayerAndKnockBack(Collider2D collider)
+    {
+        Debug.Log("Enemy collision");
+        // 적과 충돌하여 넉백 실행
+        if (healthScr.Damaged(1))
+        {
+            // 플레이어가 오른쪽으로 가고 있을 때
+            if (Rigid2D.velocity.x > 0.5f)
+            {
+                knockBackVec = new Vector2(-1.0f, 1.0f);
+            }
+            else if (Rigid2D.velocity.x < -0.5f)
+            {
+                knockBackVec = new Vector2(1.0f, 1.0f);
+            }
+            else
+            {
+                if (collider.GetComponent<Rigidbody2D>().velocity.x >= 0)
+                {
+                    knockBackVec = new Vector2(1.0f, 1.0f);
+                }
+                else
+                {
+                    knockBackVec = new Vector2(-1.0f, 1.0f);
+                }
+            }
+            isCalledKnockbackEvent = true;
+        }
     }
 }

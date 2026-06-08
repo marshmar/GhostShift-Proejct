@@ -47,7 +47,8 @@ public class GogglesController : PlayerControllerR
             playerManager.ChangeCharType(PlayerType.PLAYERGHOST);
             return new DashState(GetCurrentController());
         }
-        return null;
+
+        return base.HandleSpecialStateInput();
     }
 
     private void nvdAction(bool isInNVDModes)

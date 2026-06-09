@@ -54,7 +54,7 @@ public class PlayerControllerR : MonoBehaviour
     public virtual void Initialize()
     {}
 
-    public virtual State HandleSpecialStateInput()
+    public virtual State HandleSpecialInput()
     {
         if(isCalledKnockbackEvent)
         {

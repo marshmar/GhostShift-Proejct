@@ -67,7 +67,7 @@ public class CleanerController : PlayerControllerR
         }
     }
 
-    public override State HandleSpecialStateInput()
+    public override State HandleSpecialInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -90,7 +90,7 @@ public class CleanerController : PlayerControllerR
 
         }
 
-        return base.HandleSpecialStateInput();
+        return base.HandleSpecialInput();
     }
 
     private void Fire(EnemyType enemyType)

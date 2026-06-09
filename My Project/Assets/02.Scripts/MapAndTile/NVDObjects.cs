@@ -17,7 +17,7 @@ public class NVDObjects : MonoBehaviour
             gogglesController = playerObj.GetComponent<GogglesController>();
             if(gogglesController != null)
             {
-                gogglesController.IsInNVDMode += isNVD => tilemapRenderer.enabled = isNVD;
+                gogglesController.IsInNVDMode += SetNVDRenderering;
             }
 
         }
@@ -25,5 +25,15 @@ public class NVDObjects : MonoBehaviour
         tilemapRenderer = GetComponent<TilemapRenderer>();
         this.gameObject.GetComponent<Tilemap>().color = Color.green;
         tilemapRenderer.enabled = false;
+    }
+
+    public void SetNVDRenderering(bool flag)
+    {
+        tilemapRenderer.enabled = flag;
+    }
+
+    private void OnDestroy()
+    {
+        gogglesController.IsInNVDMode -= SetNVDRenderering;
     }
 }

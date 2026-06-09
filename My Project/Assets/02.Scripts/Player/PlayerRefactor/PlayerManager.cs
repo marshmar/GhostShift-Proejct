@@ -11,7 +11,6 @@ public class PlayerManager : MonoBehaviour
     private Dictionary<PlayerType, GameObject> charObjs;
     private Dictionary<PlayerType, PlayerControllerR> charControllers;
 
-
     [SerializeField] private GameObject ghostCharObj;
     [SerializeField] private GameObject shieldCharObj;
     [SerializeField] private GameObject gogglesCharObj;

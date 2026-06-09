@@ -35,7 +35,7 @@ public class GhostController : PlayerControllerR
         attack2Sfx = Resources.Load<AudioClip>("PlayerAudios/attack2");
     }
 
-    public override State HandleSpecialStateInput()
+    public override State HandleSpecialInput()
     {
         if(Input.GetMouseButtonDown(0) && CanDash)
         {
@@ -49,7 +49,7 @@ public class GhostController : PlayerControllerR
             return new StickState(this, target);
         }
 
-        return base.HandleSpecialStateInput();
+        return base.HandleSpecialInput();
     }
 
     protected void OnTriggerEnter2D(Collider2D collider)

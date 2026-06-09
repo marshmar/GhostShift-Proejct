@@ -62,7 +62,7 @@ public class GogglesController : PlayerControllerR
         }
     }
 
-    public override State HandleSpecialStateInput()
+    public override State HandleSpecialInput()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -76,7 +76,7 @@ public class GogglesController : PlayerControllerR
             return new DashState(GetCurrentController());
         }
 
-        return base.HandleSpecialStateInput();
+        return base.HandleSpecialInput();
     }
 
     private void nvdAction(bool isInNVDModes)

@@ -9,6 +9,7 @@ public class ShieldController : PlayerControllerR
     private Shield shieldScr;
     private AudioClip swingSfx;
     private bool isDefended;
+
     protected override void Awake()
     {
         base.Awake();
@@ -55,7 +56,7 @@ public class ShieldController : PlayerControllerR
         }
     }
 
-    public override State HandleSpecialStateInput()
+    public override State HandleSpecialInput()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -74,7 +75,7 @@ public class ShieldController : PlayerControllerR
             return new ParryState(this);
         }
 
-        return base.HandleSpecialStateInput();
+        return base.HandleSpecialInput();
     }
 
     public void SetShieldObject(bool value)

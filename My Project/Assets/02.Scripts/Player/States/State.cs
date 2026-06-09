@@ -22,10 +22,9 @@ public abstract class State
     public abstract void Exit();
 
     public virtual void FixedDoAction() { }
-    public virtual void Skill() { }
 
     public virtual State HandleSpecialInput()
     {
-        return controller.HandleSpecialStateInput();
+        return controller.HandleSpecialInput();
     }
 }

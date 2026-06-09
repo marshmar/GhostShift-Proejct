@@ -21,7 +21,10 @@ public class PlayerControllerR : MonoBehaviour
     private Dictionary<PlayerType, GameObject> charObjs;
     private Dictionary<PlayerType, PlayerController> charControllers;
     private AudioClip damagedSfx;
+    private AudioClip jumpSfx;
     private bool isCalledKnockbackEvent;
+
+    public GameObject hitEffect;
 
     protected virtual void Awake()
     {
@@ -35,21 +38,21 @@ public class PlayerControllerR : MonoBehaviour
         healthScr = GetComponent<Health>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         isCalledKnockbackEvent = false;
         Cursor.lockState = CursorLockMode.Confined;
+
+        // 효과음 로드
+        jumpSfx = Resources.Load<AudioClip>("PlayerAudios/jump");
+        damagedSfx = Resources.Load<AudioClip>("PlayerAudios/damaged");
     }
 
     protected virtual void Update()
-    {
-
-    }
+    {}
 
     public virtual void Initialize()
-    {
-
-    }
+    {}
 
     public virtual State HandleSpecialStateInput()
     {
@@ -92,6 +95,12 @@ public class PlayerControllerR : MonoBehaviour
         AudioSource.Play();
     }
 
+    public void PlayJumpAudio()
+    {
+        AudioSource.clip = jumpSfx;
+        AudioSource.Play();
+    }
+
     public void DamagePlayerAndKnockBack(Collider2D collider)
     {
         Debug.Log("Enemy collision");
@@ -120,5 +129,26 @@ public class PlayerControllerR : MonoBehaviour
             }
             isCalledKnockbackEvent = true;
         }
+    }
+
+    public void DamagePlayerAndKnockBack(Vector2 dir)
+    {
+        Debug.Log("Enemy collision");
+        // 적과 충돌하여 넉백 실행
+        if (healthScr.Damaged(1))
+        {
+            knockBackVec = dir;
+            isCalledKnockbackEvent = true;
+        }
+    }
+
+    public void GenerateShakeEffect()
+    {
+        // 이펙트 게임 오브젝트 생성 및 카메라 쉐이크
+        GameObject hitflash = Instantiate(hitEffect, transform.position, transform.rotation);
+        CameraShake.Instance.OnShakeCamera();
+
+        // 0.2초뒤에 이펙트 삭제
+        Destroy(hitflash, 0.2f);
     }
 }

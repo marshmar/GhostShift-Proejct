@@ -33,6 +33,7 @@ public class DashState : State
         if (ghostController != null)
         {
             ghostController.CanDash = false;
+            ghostController.PlayDashSfx();
         }
     }
 

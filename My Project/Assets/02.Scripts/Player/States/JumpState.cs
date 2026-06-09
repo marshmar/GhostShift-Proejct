@@ -42,8 +42,8 @@ public class JumpState : MoveState
     {
         // 점프
         rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-        //// 점프 효과음 재생
-        //audio.PlayOneShot(jumpSfx);
+        // 점프 효과음 재생
+        controller.PlayJumpAudio();
         // 점프 애니메이션 재생
         anim.SetBool("isJumping", true);
     }

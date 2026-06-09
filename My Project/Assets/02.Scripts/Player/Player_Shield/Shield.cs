@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Shield : MonoBehaviour
 {
+    public Action defendSuccess;
     public GameObject hitEffect;
     public GameObject playerBullet;
     public AudioClip parryingSfx;
@@ -30,6 +32,7 @@ public class Shield : MonoBehaviour
             GameObject hitflash = Instantiate(hitEffect, transform.position, transform.rotation);
             Destroy(hitflash, 0.2f);
             CameraShake.Instance.OnShakeCamera();
+            defendSuccess?.Invoke();
             if (isParrying)
             {
                 Debug.Log("Æ¨°Ü³½ ÃÑ¾Ë »ý¼º");

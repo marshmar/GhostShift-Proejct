@@ -22,8 +22,9 @@ public class GogglesController : PlayerControllerR
         IsInNVDMode += nvdAction;
     }
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         NVDBackground = Resources.Load<Material>("Materials/NVDMaterial");
     }
 
@@ -35,6 +36,32 @@ public class GogglesController : PlayerControllerR
         originalBackground = background.GetComponent<MeshRenderer>().material;
     }
 
+    protected void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (enabled == false)
+        {
+            return;
+        }
+
+        if (collider.CompareTag("Enemy"))
+        {
+            DamagePlayerAndKnockBack(collider);
+        }
+
+        // 총알과 충돌했을 경우
+        if (collider.CompareTag("Bullet"))
+        {
+            // 총알의 방향을 읽어오기 위해 스크립트 컴포넌트 얻어오기
+            if (collider.TryGetComponent<BulletController>(out BulletController bulletControllerScr))
+            {
+                Debug.Log($"{0}: 총알과 충돌하여 체력 달기", this);
+                Vector2 knockBackVec = new Vector2(Mathf.Sign(collider.gameObject.GetComponent<Rigidbody2D>().velocity.x), 1.0f);
+                DamagePlayerAndKnockBack(knockBackVec);
+                Destroy(collider.gameObject);
+            }
+        }
+    }
+
     public override State HandleSpecialStateInput()
     {
         if (Input.GetKeyDown(KeyCode.S))
@@ -44,6 +71,7 @@ public class GogglesController : PlayerControllerR
 
         if (Input.GetMouseButtonDown(0))
         {
+            GenerateShakeEffect();
             playerManager.ChangeCharType(PlayerType.PLAYERGHOST);
             return new DashState(GetCurrentController());
         }

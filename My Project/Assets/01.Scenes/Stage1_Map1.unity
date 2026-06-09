@@ -17964,6 +17964,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   Transform: {fileID: 0}
   AudioSource: {fileID: 0}
+  hitEffect: {fileID: 5131032198903454546, guid: 15bf5b931e0129543ac7919af553b62d, type: 3}
 --- !u!114 &56759022692005723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17982,6 +17983,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   Transform: {fileID: 0}
   AudioSource: {fileID: 0}
+  hitEffect: {fileID: 5131032198903454546, guid: 15bf5b931e0129543ac7919af553b62d, type: 3}
 --- !u!114 &56759022692005724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18000,6 +18002,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   Transform: {fileID: 0}
   AudioSource: {fileID: 0}
+  hitEffect: {fileID: 5131032198903454546, guid: 15bf5b931e0129543ac7919af553b62d, type: 3}
 --- !u!114 &56759022692005725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18018,6 +18021,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   Transform: {fileID: 0}
   AudioSource: {fileID: 0}
+  hitEffect: {fileID: 5131032198903454546, guid: 15bf5b931e0129543ac7919af553b62d, type: 3}
   shield: {fileID: 9205740407357122638}
   shieldPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &56759022692005795

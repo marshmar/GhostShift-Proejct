@@ -17,7 +17,6 @@ public class FallingState : MoveState
 
     public override void Enter()
     {
-        Debug.Log("Entered Falling State");
         anim.SetBool("isJumping", true);
         isGround = false;
     }

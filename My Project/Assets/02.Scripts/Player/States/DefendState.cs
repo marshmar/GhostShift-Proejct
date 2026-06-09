@@ -12,27 +12,21 @@ public class DefendState : State
 
     public override void DoAction(float deltaTime)
     {
-        //Direction Sprite
-        if (Input.GetButton("Horizontal"))
+        float h = Input.GetAxisRaw("Horizontal");
+        if (h == 1)
         {
-            ShieldController shieldController = controller as ShieldController;
-            spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == 1;
-            if (Input.GetAxisRaw("Horizontal") == 1)
-            {
-                spriteRenderer.flipX = true;
-                if (shieldController != null)
-                {
-                    shieldController.shield.transform.localPosition = shieldController.shieldPosition;
-                }
-            }
-            else
-            {
-                spriteRenderer.flipX = false;
-                if (shieldController != null)
-                {
-                    shieldController.shield.transform.localPosition = shieldController.shieldPosition * -1;
-                }
-            }
+            spriteRenderer.flipX = true;
+        }
+        else if (h == -1)
+        {
+            spriteRenderer.flipX = false;
+        }
+
+        ShieldController shieldController = controller as ShieldController;
+        if(shieldController != null)
+        {
+            shieldController.shield.transform.localPosition
+                = spriteRenderer.flipX ? shieldController.shieldPosition : shieldController.shieldPosition * -1.0f;
         }
     }
 
